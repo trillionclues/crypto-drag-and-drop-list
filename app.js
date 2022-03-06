@@ -39,6 +39,8 @@ const cryptoCoins = []
 
 let dragStartIndex
 
+let touchStartIndex
+
 createItems()
 
 // insert crypto items into DOM
@@ -78,7 +80,7 @@ function createItems() {
   addEvents()
 }
 
-// DRAG EVENTS
+// DRAG EVENTS FOR DESKTOP
 function dragStart() {
   // console.log('Event: ', 'dragstart')
 
@@ -112,6 +114,48 @@ function dragDrop() {
   this.classList.remove('over')
 }
 
+// TOUCH FUNCTION FOR MOBILE
+function touchStart() {
+  // console.log('Event: ', 'touchstart')
+
+  touchStartIndex = +this.closest('li').getAttribute('data-index')
+}
+function touchMove(evt) {
+  // console.log('Event: ', 'touchmove')
+
+  this.classList.add('over')
+
+  evt.preventDefault()
+}
+function touchCancel() {
+  // console.log('Event: ', 'touchcancel')
+
+  const touchEndIndex = +this.getAttribute('data-index')
+
+  touchSwap(touchStartIndex, touchEndIndex)
+
+  this.classList.remove('over')
+}
+function touchEnd() {
+  // console.log('Event: ', 'touchend')
+
+  this.classList.remove('over')
+}
+
+// CALLBACK FUNCTION FOR TOUCH
+
+function touchSwap(fromTouch, toTouch) {
+  const touchOne = cryptoCoins[fromTouch].querySelector('.draggable')
+  const touchTwo = cryptoCoins[toTouch].querySelector('.draggable')
+
+  cryptoCoins[fromTouch].appendChild(touchTwo)
+  cryptoCoins[toTouch].appendChild(touchOne)
+}
+
+//
+
+//
+
 // SWAP ITEMS ON DROP
 function swapCoins(fromIndex, toIndex) {
   const coinOne = cryptoCoins[fromIndex].querySelector('.draggable')
@@ -136,11 +180,14 @@ function checkOrder() {
   })
 }
 
-//  event listeners
+//  event listeners for DESKTOP
 function addEvents() {
   const draggs = document.querySelectorAll('.draggable')
   const draggListItems = document.querySelectorAll('.drag-list li')
+  const touches = document.querySelectorAll('.draggables')
+  const touchListItems = document.querySelectorAll('.drag-list li')
 
+  // DESKTOP
   draggs.forEach((dragg) => {
     dragg.addEventListener('dragstart', dragStart)
   })
@@ -150,6 +197,17 @@ function addEvents() {
     items.addEventListener('drop', dragDrop)
     items.addEventListener('dragenter', dragEnter)
     items.addEventListener('dragleave', dragLeave)
+  })
+
+  // MOBILE
+  touches.forEach((touch) => {
+    touch.addEventListener('touchstart', touchStart)
+  })
+
+  touchListItems.forEach((touchItems) => {
+    touchItems.addEventListener('touchmove', touchMove)
+    touchItems.addEventListener('touchend', touchEnd)
+    touchItems.addEventListener('touchcancel', touchCancel)
   })
 }
 
