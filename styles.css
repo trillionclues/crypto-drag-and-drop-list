@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+  --border-color: #e3e5e4;
+  --background-color: #c3c7ca;
+  --text-color: #34444f;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+}
+
+body h1 {
+  margin: 0.2rem 0 0.2rem 0;
+  font-size: 50px;
+  background-color: var(--background-color);
+}
+
+body p {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+body a {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+ul {
+  list-style-type: disc;
+  /* list-style-position: inside; */
+  columns: 3;
+}
+
+.drag-list {
+  /* border: 1px solid var(--border-color); */
+  color: var(--text-color);
+  padding: 0;
+  list-style-type: none;
+}
+
+.drag-list li {
+  background-color: #fff;
+  display: flex;
+  flex: 1;
+}
+
+.drag-list li:not(:last-of-type) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.drag-list .number {
+  background-color: var(--background-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  height: 60px;
+  width: 60px;
+  margin-bottom: 0.2rem;
+}
+
+/* drag hover color */
+.drag-list li.over .draggable {
+  background-color: #d6d6d6;
+}
+
+.drag-list .coin-name {
+  margin: 0 20px 0 0;
+}
+
+/* red and green color validator for checker button */
+.drag-list li.right .coin-name {
+  color: #3ae374;
+}
+
+.drag-list li.wrong .coin-name {
+  color: #ff3838;
+}
+
+/* div class */
+.draggable {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  flex: 1;
+}
+
+/* check button */
+.check-list {
+  background-color: var(--border-color);
+  border: none;
+  color: var(--text-color);
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  text-transform: capitalize;
+}
+
+.check-list:active {
+  transform: scale(0.98);
+}
+
+.check-list:focus {
+  outline: none;
+}
+
+/* MEDIA QUERIES */
+@media only screen and (max-width: 600px) {
+  body {
+    display: flex;
+    width: 100%;
+    height: 40%;
+  }
+
+  body p {
+    text-align: center;
+  }
+
+  body h1 {
+    height: 30vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background-color: var(--background-color);
+  }
+
+  ul {
+    columns: 1;
+  }
+
+  .drag-list {
+    padding: 0 50px;
+  }
+}
