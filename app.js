@@ -114,32 +114,39 @@ function dragDrop() {
   this.classList.remove('over')
 }
 
-// TOUCH FUNCTION FOR MOBILE
+//
+
+// TOUCH CALLBACK FUNCTION FOR MOBILE
 function touchStart() {
   // console.log('Event: ', 'touchstart')
 
   touchStartIndex = +this.closest('li').getAttribute('data-index')
 }
-function touchMove(evt) {
+
+function touchMove() {
   // console.log('Event: ', 'touchmove')
 
   this.classList.add('over')
-
-  evt.preventDefault()
 }
-function touchCancel() {
-  // console.log('Event: ', 'touchcancel')
+
+function touchLeave() {
+  // console.log('Event: ', 'touchleave')
+
+  this.classList.remove('over')
+}
+
+function touchEnd() {
+  // console.log('Event: ', 'touchend')
 
   const touchEndIndex = +this.getAttribute('data-index')
 
   touchSwap(touchStartIndex, touchEndIndex)
-
-  this.classList.remove('over')
 }
-function touchEnd() {
-  // console.log('Event: ', 'touchend')
 
-  this.classList.remove('over')
+function touchCancel(evt) {
+  // console.log('Event: ', 'touchcancel')
+
+  evt.preventDefault()
 }
 
 // CALLBACK FUNCTION FOR TOUCH
@@ -207,6 +214,7 @@ function addEvents() {
   touchListItems.forEach((touchItems) => {
     touchItems.addEventListener('touchmove', touchMove)
     touchItems.addEventListener('touchend', touchEnd)
+    touchItems.addEventListener('touchleave', touchLeave)
     touchItems.addEventListener('touchcancel', touchCancel)
   })
 }
