@@ -117,36 +117,51 @@ function dragDrop() {
 //
 
 // TOUCH CALLBACK FUNCTION FOR MOBILE
-function touchStart() {
+function touchStart(evt) {
   // console.log('Event: ', 'touchstart')
 
-  touchStartIndex = +this.closest('li').getAttribute('data-index')
-}
-
-function touchMove() {
-  // console.log('Event: ', 'touchmove')
+  // evt.preventDefault()
+  // touchStartIndex = +this.closest('li').getAttribute('data-index')
+  originalX = evt.target.offsetLeft - 10 + 'px'
+  originalY = evt.target.offsetTop - 10 + 'px'
+  activeEvent = 'touchstart'
 
   this.classList.add('over')
 }
 
-function touchLeave() {
-  // console.log('Event: ', 'touchleave')
+function touchMove(event) {
+  // console.log('Event: ', 'touchmove')
+  // this.classList.add('over')
+  // const touchEndIndex = +this.getAttribute('data-index')
+
+  const touchLocation = event.targetTouches[index]
+  const pageX = touchLocation.pageX - 50 + 'px'
+  const pageY = touchLocation.pageY - 50 + 'px'
+
+  activeEvent = 'touchmove'
+}
+
+function touchEnd(evt) {
+  // console.log('Event: ', 'touchend')
+  // touchSwap(touchStartIndex, touchEndIndex)
+
+  evt.preventDefault()
+
+  if ((activeEvent = 'touchmove')) {
+    const pageX = parseInt(evt.target.style.left) - 50
+    const pageY = parseInt(evt.target.style.top) - 50
+  } else {
+    evt.target.style.left = originalX
+    evt.target.style.top = originalY
+  }
 
   this.classList.remove('over')
 }
 
-function touchEnd() {
-  // console.log('Event: ', 'touchend')
-
-  const touchEndIndex = +this.getAttribute('data-index')
-
-  touchSwap(touchStartIndex, touchEndIndex)
-}
-
 function touchCancel(evt) {
   // console.log('Event: ', 'touchcancel')
-
-  evt.preventDefault()
+  this.classList.remove('over')
+  // evt.preventDefault()
 }
 
 // CALLBACK FUNCTION FOR TOUCH
@@ -191,7 +206,7 @@ function checkOrder() {
 function addEvents() {
   const draggs = document.querySelectorAll('.draggable')
   const draggListItems = document.querySelectorAll('.drag-list li')
-  const touches = document.querySelectorAll('.draggables')
+  const touches = document.querySelectorAll('.draggable')
   const touchListItems = document.querySelectorAll('.drag-list li')
 
   // DESKTOP
@@ -208,16 +223,39 @@ function addEvents() {
 
   // MOBILE
   touches.forEach((touch) => {
-    touch.addEventListener('touchstart', touchStart)
+    touch.addEventListener('touchstart', touchStart, false)
   })
 
   touchListItems.forEach((touchItems) => {
-    touchItems.addEventListener('touchmove', touchMove)
-    touchItems.addEventListener('touchend', touchEnd)
-    touchItems.addEventListener('touchleave', touchLeave)
+    touchItems.addEventListener('touchend', touchEnd, false)
+    touchItems.addEventListener('touchmove', touchMove, false)
     touchItems.addEventListener('touchcancel', touchCancel)
   })
 }
 
 // EVENT LISTENER FOR THE CHECK BUTTON
 checkSelection.addEventListener('click', checkOrder)
+
+//
+
+//
+
+// function getPositionX(event) {
+//   return event.type.includes('mouse') ? pageX : event.touches[0].clientX
+// }
+
+// function amimation() {
+//   setSliderPosition()
+//   if (addEvents) requestAnimationFrame(animation)
+// }
+
+// function setSliderPosition() {
+//   slider.style.transform = `translateX(${currentTranslate}px)`
+// }
+
+// function setSliderPositionIndex() {
+//   currentTranslate = currentIndex * -window.innerWidth
+//   prevTranslate = currentTranslate
+
+//   setSliderPosition()
+// }
